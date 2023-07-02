@@ -1,4 +1,5 @@
 const API_KEY = "fd7f3bd4140e4e199de155201231806";
+let currentWeatherInformation;
 
 function getWeatherInformationAtLocation(locationName) {
   // gets the current weather information and parses it as an object which is returned
@@ -25,10 +26,47 @@ function getWeatherInformationAtLocation(locationName) {
 
 const btn = document.createElement("button", "dummy");
 btn.textContent = "TestTilburg";
-btn.addEventListener("click", async () =>
-  getWeatherInformationAtLocation("Tilburg").then((weatherInformation) =>
-    console.log(weatherInformation)
-  )
+btn.addEventListener("click", () =>
+  getWeatherInformationAtLocation("Tilburg")
+    .then((weatherInformation) => {
+      console.log(weatherInformation);
+      currentWeatherInformation = weatherInformation;
+    })
+    .catch((reason) => {
+      console.log(reason);
+    })
 );
 
-document.querySelector("body").append(btn);
+function getWeatherCallback() {
+  const inputLocation = document.getElementById("input-location");
+  const location = inputLocation.value;
+
+  getWeatherInformationAtLocation(location)
+    .then((weatherInformation) => {
+      console.log(weatherInformation);
+      currentWeatherInformation = weatherInformation;
+    })
+    .catch((reason) => {
+      console.log(reason);
+    });
+}
+
+// DOM stuff
+const weatherFormContainer = document.createElement("div");
+weatherFormContainer.classList.add("form-container");
+
+const weatherForm = document.createElement("form");
+weatherForm.setAttribute("onsubmit", "return false;");
+
+const inputLocation = document.createElement("input");
+inputLocation.setAttribute("type", "text");
+inputLocation.id = "input-location";
+
+const btnGetWeather = document.createElement("button");
+btnGetWeather.textContent = "Get weather!";
+btnGetWeather.addEventListener("click", getWeatherCallback);
+
+weatherForm.append(inputLocation, btnGetWeather);
+weatherFormContainer.appendChild(weatherForm);
+
+document.querySelector("body").append(weatherFormContainer);
