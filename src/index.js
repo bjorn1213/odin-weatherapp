@@ -1,3 +1,5 @@
+import "./style.css";
+
 const API_KEY = "fd7f3bd4140e4e199de155201231806";
 let currentWeatherInformation;
 
@@ -49,6 +51,9 @@ function getWeatherCallback() {
     });
 }
 
+const pageContainer = document.createElement("div");
+pageContainer.classList.add("page-container");
+
 // Weather form
 const weatherFormContainer = document.createElement("div");
 weatherFormContainer.classList.add("form-container");
@@ -59,6 +64,7 @@ weatherForm.setAttribute("onsubmit", "return false;");
 const inputLocation = document.createElement("input");
 inputLocation.setAttribute("type", "text");
 inputLocation.id = "input-location";
+inputLocation.defaultValue = "Tilburg";
 
 const btnGetWeather = document.createElement("button");
 btnGetWeather.textContent = "Get weather!";
@@ -67,7 +73,7 @@ btnGetWeather.addEventListener("click", getWeatherCallback);
 weatherForm.append(inputLocation, btnGetWeather);
 weatherFormContainer.appendChild(weatherForm);
 
-document.querySelector("body").append(weatherFormContainer);
+pageContainer.append(weatherFormContainer);
 
 // Display weather information
 
@@ -86,4 +92,8 @@ weatherInformationContainer.append(
   divLocationInformation,
   divWeatherInformation
 );
-document.querySelector("body").append(weatherInformationContainer);
+pageContainer.append(weatherInformationContainer);
+
+document.querySelector("body").append(pageContainer);
+
+getWeatherCallback();
