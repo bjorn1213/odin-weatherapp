@@ -2,13 +2,15 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 body {
   background-color: rgb(126, 229, 255);
   display: flex;
+  position: relative;
 
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
@@ -37,4 +39,34 @@ body {
 button,
 input {
   font: inherit;
+}
+
+#loading-div-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-div {
+  height: 50px;
+  width: 3px;
+  background-color: black;
+  animation: rotating 2s ease-in-out infinite;
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+    transform-origin: bottom center;
+  }
+  to {
+    transform: rotate(360deg);
+    transform-origin: bottom center;
+  }
 }

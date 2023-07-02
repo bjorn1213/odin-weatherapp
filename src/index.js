@@ -36,9 +36,28 @@ function displayWeatherInformation() {
   divWeatherInformation.textContent = `${currentWeatherInformation.temp_c} C`;
 }
 
+function toggleLoadingDiv() {
+  let exists = document.getElementById("loading-div-container");
+  if (!exists) {
+    const div = document.createElement("div");
+    div.id = "loading-div-container";
+
+    const subdiv = document.createElement("div");
+    subdiv.classList.add("loading-div");
+
+    div.append(subdiv);
+
+    document.querySelector("body").appendChild(div);
+  } else {
+    exists.remove();
+  }
+}
+
 function getWeatherCallback() {
   const inputLocation = document.getElementById("input-location");
   const location = inputLocation.value;
+
+  toggleLoadingDiv();
 
   getWeatherInformationAtLocation(location)
     .then((weatherInformation) => {
@@ -48,7 +67,8 @@ function getWeatherCallback() {
     })
     .catch((reason) => {
       console.log(reason);
-    });
+    })
+    .finally(() => toggleLoadingDiv());
 }
 
 const pageContainer = document.createElement("div");
@@ -64,7 +84,7 @@ weatherForm.setAttribute("onsubmit", "return false;");
 const inputLocation = document.createElement("input");
 inputLocation.setAttribute("type", "text");
 inputLocation.id = "input-location";
-inputLocation.defaultValue = "Tilburg";
+inputLocation.defaultValue = "Amsterdam";
 
 const btnGetWeather = document.createElement("button");
 btnGetWeather.textContent = "Get weather!";
