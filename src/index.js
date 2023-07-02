@@ -24,18 +24,15 @@ function getWeatherInformationAtLocation(locationName) {
     });
 }
 
-const btn = document.createElement("button", "dummy");
-btn.textContent = "TestTilburg";
-btn.addEventListener("click", () =>
-  getWeatherInformationAtLocation("Tilburg")
-    .then((weatherInformation) => {
-      console.log(weatherInformation);
-      currentWeatherInformation = weatherInformation;
-    })
-    .catch((reason) => {
-      console.log(reason);
-    })
-);
+function displayWeatherInformation() {
+  const divLocationInformation = document.getElementById(
+    "location-information"
+  );
+  const divWeatherInformation = document.getElementById("weather-information");
+
+  divLocationInformation.textContent = `Current weather for ${currentWeatherInformation.name}, ${currentWeatherInformation.country}`;
+  divWeatherInformation.textContent = `${currentWeatherInformation.temp_c} C`;
+}
 
 function getWeatherCallback() {
   const inputLocation = document.getElementById("input-location");
@@ -45,13 +42,14 @@ function getWeatherCallback() {
     .then((weatherInformation) => {
       console.log(weatherInformation);
       currentWeatherInformation = weatherInformation;
+      displayWeatherInformation();
     })
     .catch((reason) => {
       console.log(reason);
     });
 }
 
-// DOM stuff
+// Weather form
 const weatherFormContainer = document.createElement("div");
 weatherFormContainer.classList.add("form-container");
 
@@ -70,3 +68,22 @@ weatherForm.append(inputLocation, btnGetWeather);
 weatherFormContainer.appendChild(weatherForm);
 
 document.querySelector("body").append(weatherFormContainer);
+
+// Display weather information
+
+const weatherInformationContainer = document.createElement("div");
+weatherInformationContainer.classList.add("weather-info-container");
+
+const divLocationInformation = document.createElement("div");
+divLocationInformation.classList.add("information-div");
+divLocationInformation.id = "location-information";
+
+const divWeatherInformation = document.createElement("div");
+divWeatherInformation.classList.add("information-div");
+divWeatherInformation.id = "weather-information";
+
+weatherInformationContainer.append(
+  divLocationInformation,
+  divWeatherInformation
+);
+document.querySelector("body").append(weatherInformationContainer);
